@@ -14,8 +14,6 @@ type SessionStore = {
   rawText: string
 }
 
-// const sessionStores = new Map<SessionId, SessionStore>()
-
 const embeddings = new OpenAIEmbeddings({
   model: "text-embedding-3-small",
 })
