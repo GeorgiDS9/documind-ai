@@ -20,12 +20,6 @@ export async function POST(request: Request) {
 
   const chunks = await retrieveRelevantChunks(sessionId, query, 3)
 
-  console.log("Retrieved Chunks (sources endpoint)", {
-    sessionId,
-    query,
-    chunks,
-  })
-
   return NextResponse.json({ sources: chunks }, { status: 200 })
 }
 

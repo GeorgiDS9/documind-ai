@@ -35,12 +35,6 @@ export async function POST(request: Request) {
 
     const contextChunks = await retrieveRelevantChunks(sessionId, query, 3)
 
-    console.log("Retrieved Chunks", {
-      sessionId,
-      query,
-      chunks: contextChunks,
-    })
-
     const context =
       contextChunks.length > 0
         ? contextChunks.map((c) => c.text).join("\n\n---\n\n")
@@ -69,8 +63,15 @@ export async function POST(request: Request) {
             ]),
       ],
     })
+    
 
-    return result.toTextStreamResponse()
+    return result.toTextStreamResponse({
+      headers: {
+        'x-vercel-ai-data-stream': 'v1',
+        'Content-Type': 'text/plain; charset=utf-8',
+      },
+    });
+
   } catch (error) {
     console.error("Chat route error", error)
     return NextResponse.json(

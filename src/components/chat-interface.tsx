@@ -17,6 +17,7 @@ export function ChatInterface() {
   const { toast } = useToast();
 
   const [sources, setSources] = useState<RetrievedChunk[]>([]);
+  const [hasStarted, setHasStarted] = useState(false);
 
   const {
     completion,
@@ -27,8 +28,11 @@ export function ChatInterface() {
     error,
   } = useCompletion({
     api: "/api/chat",
-    body: sessionId ? { sessionId } : undefined,
+    body: { sessionId },
+    streamProtocol: "text",
   });
+
+  const showWelcome = !hasStarted && !completion && !isLoading;
 
   useEffect(() => {
     if (!error) return;
@@ -101,7 +105,7 @@ export function ChatInterface() {
 
       <div className="mt-3 flex-1 max-h-[420px] rounded-2xl border border-white/10 bg-slate-950/60 px-3 py-2">
         <div className="flex h-full flex-col gap-2 overflow-y-auto pb-1 pt-0">
-          {!completion && (
+          {showWelcome && (
             <div className="mt-4 space-y-2 rounded-2xl bg-slate-900/80 p-3 text-xs text-slate-300 ring-1 ring-white/10">
               <p className="font-medium text-slate-100">
                 You&apos;re connected to the DocuMind RAG shell.
@@ -148,10 +152,12 @@ export function ChatInterface() {
             return;
           }
 
-          if (
+          // Check for ingestion
+          const isIngested =
             typeof window !== "undefined" &&
-            !window.localStorage.getItem("documind-ai-ingested")
-          ) {
+            window.localStorage.getItem("documind-ai-ingested");
+
+          if (!isIngested) {
             event.preventDefault();
             toast({
               title: "Upload a PDF first",
@@ -161,7 +167,9 @@ export function ChatInterface() {
             return;
           }
 
-          // Let useCompletion handle the actual /api/chat request
+          setHasStarted(true);
+          void fetchSources(value);
+          // Trigger the AI stream
           handleSubmit(event);
         }}
         className="mt-3 flex items-center gap-2 rounded-2xl border border-white/15 bg-slate-950/70 p-2 text-xs shadow-inner shadow-slate-950/60"

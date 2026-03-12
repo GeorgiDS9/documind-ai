@@ -1,6 +1,7 @@
 import { OpenAIEmbeddings } from "@langchain/openai"
+import PDFParser from "pdf2json";
 
-type SessionId = string
+type SessionId = string;
 
 export type RetrievedChunk = {
   id: number
@@ -13,11 +14,21 @@ type SessionStore = {
   rawText: string
 }
 
-const sessionStores = new Map<SessionId, SessionStore>()
+// const sessionStores = new Map<SessionId, SessionStore>()
 
 const embeddings = new OpenAIEmbeddings({
   model: "text-embedding-3-small",
 })
+
+// Ensure sessionStores persists across hot reloads in dev
+const globalForRag = globalThis as unknown as {
+  __DOCUMIND_SESSION_STORES__?: Map<SessionId, SessionStore>
+}
+export const sessionStores: Map<SessionId, SessionStore> =
+  globalForRag.__DOCUMIND_SESSION_STORES__ || new Map<SessionId, SessionStore>()
+if (!globalForRag.__DOCUMIND_SESSION_STORES__) {
+  globalForRag.__DOCUMIND_SESSION_STORES__ = sessionStores
+}
 
 function chunkText(
   text: string,
@@ -58,22 +69,43 @@ function cosineSimilarity(a: number[], b: number[]): number {
   return dot / (Math.sqrt(normA) * Math.sqrt(normB))
 }
 
-export async function ingestPdfForSession(buffer: Buffer, sessionId: SessionId) {
-  // TEMP: bypass pdf-parse and treat the PDF buffer as a UTF-8 string
-  const text = buffer.toString("utf-8")
+async function extractTextFromPdf(buffer: Buffer): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const pdfParser = new PDFParser(null, true); // Use text-only mode
 
-  if (!text.trim()) {
-    throw new Error("Could not extract text from buffer.")
+    pdfParser.on("pdfParser_dataError", (errData: any) => reject(errData?.parserError || errData as Error));
+    pdfParser.on("pdfParser_dataReady", () => {
+      // Use the built-in raw text extractor - it's much more reliable than walking the JSON tree
+      const rawText = pdfParser.getRawTextContent();
+      resolve(decodeURIComponent(rawText));
+    });
+
+    pdfParser.parseBuffer(buffer);
+  });
+}
+
+export async function ingestPdfForSession(buffer: Buffer, sessionId: string) {
+  try {
+    const text = await extractTextFromPdf(buffer);
+    
+    if (!text || text.trim().length < 10) {
+      throw new Error("Extraction resulted in empty text.");
+    }
+
+    const chunks = chunkText(text, 1000, 200);
+    const vectors = await embeddings.embedDocuments(chunks);
+
+    sessionStores.set(sessionId, {
+      chunks,
+      vectors,
+      rawText: text,
+    });
+
+    return { success: true };
+  } catch (error) {
+    console.error("❌ Ingestion Error:", error);
+    throw error;
   }
-
-  const chunks = chunkText(text, 1000, 200)
-  const vectors = await embeddings.embedDocuments(chunks)
-
-  sessionStores.set(sessionId, {
-    chunks,
-    vectors,
-    rawText: text,
-  })
 }
 
 export async function retrieveRelevantChunks(
