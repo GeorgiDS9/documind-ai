@@ -52,7 +52,7 @@ To ensure the RAG engine is 100% grounded and ignoring its own pre-trained biase
 2.  **Retrieval:** The system is queried: _"What color is the moon?"_
 3.  **Validation:** The app is verified only if it retrieves the "Neon Pink" chunk and ignores its general training data, proving the **Semantic Search** and **Prompt Grounding** are functional.
 
-![Neon Pink Moon Success](./docs/assets/neon-pink-test.png)
+![Neon Pink Moon](./docs/assets/neon-pink-moon.png)
 
 _The RAG engine successfully identifies the "Neon Pink" moon color, bypassing general LLM training._
 
