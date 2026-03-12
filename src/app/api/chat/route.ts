@@ -8,18 +8,27 @@ export async function POST(request: Request) {
   try {
     const body = (await request.json()) as {
       messages?: { role: string; content: string }[]
+      prompt?: string
       sessionId?: string
     }
 
     const messages = body.messages ?? []
     const sessionId = body.sessionId ?? "default-session"
 
-    const lastUserMessage = [...messages].reverse().find((m) => m.role === "user")
-    const query = lastUserMessage?.content?.trim()
+    let query: string | undefined
+
+    if (messages.length > 0) {
+      const lastUserMessage = [...messages]
+        .reverse()
+        .find((m) => m.role === "user")
+      query = lastUserMessage?.content?.trim()
+    } else if (typeof body.prompt === "string") {
+      query = body.prompt.trim()
+    }
 
     if (!query) {
       return NextResponse.json(
-        { error: "A user message is required." },
+        { error: "A user message or prompt is required." },
         { status: 400 },
       )
     }
@@ -34,7 +43,7 @@ export async function POST(request: Request) {
 
     const context =
       contextChunks.length > 0
-        ? contextChunks.join("\n\n---\n\n")
+        ? contextChunks.map((c) => c.text).join("\n\n---\n\n")
         : "No context available from the current session."
 
     const result = await streamText({
@@ -47,10 +56,17 @@ export async function POST(request: Request) {
             "If the answer isn't there, say you don't know.\n\n" +
             context,
         },
-        ...messages.map((message) => ({
-          role: message.role as "user" | "assistant",
-          content: message.content,
-        })),
+        ...(messages.length > 0
+          ? messages.map((message) => ({
+              role: message.role as "user" | "assistant",
+              content: message.content,
+            }))
+          : [
+              {
+                role: "user" as const,
+                content: query,
+              },
+            ]),
       ],
     })
 

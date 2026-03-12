@@ -2,6 +2,11 @@ import { OpenAIEmbeddings } from "@langchain/openai"
 
 type SessionId = string
 
+export type RetrievedChunk = {
+  id: number
+  text: string
+}
+
 type SessionStore = {
   chunks: string[]
   vectors: number[][]
@@ -54,13 +59,9 @@ function cosineSimilarity(a: number[], b: number[]): number {
 }
 
 export async function ingestPdfForSession(buffer: Buffer, sessionId: SessionId) {
-  const pdfModule = await import("pdf-parse")
-  // pdf-parse may export the parser as a default or named export depending on build.
-  const pdfParse =
-    (pdfModule as { default?: (data: Buffer) => Promise<{ text: string }> })
-      .default ??
-    ((pdfModule as unknown) as (data: Buffer) => Promise<{ text: string }>)
-
+  // pdf-parse is a CommonJS module; require it lazily so it only loads in Node.
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const pdfParse: (data: Buffer) => Promise<{ text: string }> = require("pdf-parse")
   const parsed = await pdfParse(buffer)
   const text = parsed.text || ""
 
@@ -82,7 +83,7 @@ export async function retrieveRelevantChunks(
   sessionId: SessionId,
   query: string,
   k = 3,
-): Promise<string[]> {
+): Promise<RetrievedChunk[]> {
   const store = sessionStores.get(sessionId)
   if (!store) {
     return []
@@ -97,9 +98,14 @@ export async function retrieveRelevantChunks(
 
   scored.sort((a, b) => b.score - a.score)
 
-  return scored
+  const top = scored
     .slice(0, k)
     .filter((item) => item.score > 0)
-    .map((item) => item.chunk)
+    .map((item, index) => ({
+      id: index,
+      text: item.chunk,
+    }))
+
+  return top
 }
 

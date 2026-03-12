@@ -51,6 +51,10 @@ export function PDFUploader() {
         throw new Error(data?.error || "Failed to ingest document.")
       }
 
+      if (typeof window !== "undefined") {
+        window.localStorage.setItem("documind-ai-ingested", "true")
+      }
+
       toast({
         title: "Document ready for chat!",
         description: "Ask a question in the chat panel to query this PDF.",

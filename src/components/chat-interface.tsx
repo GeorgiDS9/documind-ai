@@ -1,10 +1,11 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 import { useCompletion } from "@ai-sdk/react"
 import { ArrowUpRight, Sparkles } from "lucide-react"
 
+import type { RetrievedChunk } from "@/lib/ai/rag-engine"
 import { useSessionId } from "@/hooks/use-session-id"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -14,6 +15,8 @@ import { useToast } from "@/components/ui/use-toast"
 export function ChatInterface() {
   const sessionId = useSessionId()
   const { toast } = useToast()
+
+  const [sources, setSources] = useState<RetrievedChunk[]>([])
 
   const {
     completion,
@@ -37,6 +40,48 @@ export function ChatInterface() {
         "DocuMind AI ran into an issue generating a response. Please try again.",
     })
   }, [error, toast])
+
+  async function fetchSources(prompt: string) {
+    if (!sessionId) {
+      toast({
+        title: "Preparing workspace",
+        description: "Please wait a moment and try again.",
+      })
+      return
+    }
+
+    try {
+      const response = await fetch("/api/chat/sources", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          query: prompt,
+          sessionId,
+        }),
+      })
+
+      if (!response.ok) {
+        const data = (await response.json().catch(() => null)) as
+          | { error?: string }
+          | null
+        throw new Error(
+          data?.error || "Failed to retrieve source snippets for this answer.",
+        )
+      }
+
+      const data = (await response.json()) as { sources?: RetrievedChunk[] }
+      setSources(data.sources ?? [])
+    } catch (err) {
+      toast({
+        title: "Source retrieval failed",
+        description:
+          (err as Error).message ||
+          "We couldn’t load the source snippets. The answer may still be correct, but less verifiable.",
+      })
+    }
+  }
 
   return (
     <Card className="flex h-full min-h-[420px] flex-col border-white/15 bg-slate-950/40 p-3 backdrop-blur-2xl">
@@ -95,8 +140,24 @@ export function ChatInterface() {
       <form
         onSubmit={(event) => {
           event.preventDefault()
-          if (!input.trim()) return
+          const value = input.trim()
+          if (!value) return
+
+          if (
+            typeof window !== "undefined" &&
+            !window.localStorage.getItem("documind-ai-ingested")
+          ) {
+            toast({
+              title: "Upload a PDF first",
+              description:
+                "Ingest at least one PDF on the left before asking questions.",
+            })
+            return
+          }
+
+          setSources([])
           handleSubmit(event)
+          void fetchSources(value)
         }}
         className="mt-3 flex items-center gap-2 rounded-2xl border border-white/15 bg-slate-950/70 p-2 text-xs shadow-inner shadow-slate-950/60"
       >
@@ -115,6 +176,32 @@ export function ChatInterface() {
           <ArrowUpRight className="size-3.5" />
         </Button>
       </form>
+
+      {completion && sources.length > 0 && (
+        <div className="mt-3 flex flex-wrap gap-2 px-1 text-[10px]">
+          {sources.map((source, index) => (
+            <button
+              key={source.id ?? index}
+              type="button"
+              className="rounded-full border border-white/15 bg-slate-900/80 px-2.5 py-1 text-slate-200 shadow-sm backdrop-blur hover:border-sky-400 hover:text-sky-100"
+              onClick={() => {
+                if (
+                  typeof navigator !== "undefined" &&
+                  navigator.clipboard?.writeText
+                ) {
+                  void navigator.clipboard.writeText(source.text)
+                  toast({
+                    title: `Source ${index + 1} copied`,
+                    description: "The full source snippet is now in your clipboard.",
+                  })
+                }
+              }}
+            >
+              <span className="font-medium">Source {index + 1}</span>
+            </button>
+          ))}
+        </div>
+      )}
     </Card>
   )
 }
