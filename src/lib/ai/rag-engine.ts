@@ -59,14 +59,11 @@ function cosineSimilarity(a: number[], b: number[]): number {
 }
 
 export async function ingestPdfForSession(buffer: Buffer, sessionId: SessionId) {
-  // pdf-parse is a CommonJS module; require it lazily so it only loads in Node.
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const pdfParse: (data: Buffer) => Promise<{ text: string }> = require("pdf-parse")
-  const parsed = await pdfParse(buffer)
-  const text = parsed.text || ""
+  // TEMP: bypass pdf-parse and treat the PDF buffer as a UTF-8 string
+  const text = buffer.toString("utf-8")
 
   if (!text.trim()) {
-    throw new Error("No extractable text found in PDF.")
+    throw new Error("Could not extract text from buffer.")
   }
 
   const chunks = chunkText(text, 1000, 200)
