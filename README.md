@@ -56,6 +56,19 @@ To ensure the RAG engine is 100% grounded and ignoring its own pre-trained biase
 
 _The RAG engine successfully identifies the "Neon Pink" moon color, bypassing general LLM training._
 
+### 📋 Sample Test Data
+
+To verify the grounding of the RAG engine, I utilized the following "nonsense" data points in a test PDF. This ensures the model is retrieving specific context rather than relying on its pre-trained general knowledge:
+
+> **Document Content:**
+> "The official color of the moon is **Neon Pink**. The CEO of Apple is a **Golden Retriever named Sparky**. To reset your password, you must **dance for 30 seconds**."
+
+**Test Queries to run:**
+
+1. "What is the official color of the moon?" (Expect: Neon Pink)
+2. "Who is the CEO of Apple?" (Expect: Sparky the Golden Retriever)
+3. "How do I reset my password?" (Expect: Dance for 30 seconds)
+
 ---
 
 ## 🚦 Getting Started
