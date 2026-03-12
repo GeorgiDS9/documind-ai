@@ -1,5 +1,7 @@
 "use client"
 
+import { useEffect } from "react"
+
 import { useCompletion } from "@ai-sdk/react"
 import { ArrowUpRight, Sparkles } from "lucide-react"
 
@@ -7,9 +9,12 @@ import { useSessionId } from "@/hooks/use-session-id"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
+import { useToast } from "@/components/ui/use-toast"
 
 export function ChatInterface() {
   const sessionId = useSessionId()
+  const { toast } = useToast()
+
   const {
     completion,
     input,
@@ -21,6 +26,17 @@ export function ChatInterface() {
     api: "/api/chat",
     body: sessionId ? { sessionId } : undefined,
   })
+
+  useEffect(() => {
+    if (!error) return
+
+    toast({
+      title: "Chat error",
+      description:
+        error.message ||
+        "DocuMind AI ran into an issue generating a response. Please try again.",
+    })
+  }, [error, toast])
 
   return (
     <Card className="flex h-full min-h-[420px] flex-col border-white/15 bg-slate-950/40 p-3 backdrop-blur-2xl">
@@ -46,8 +62,8 @@ export function ChatInterface() {
                 You&apos;re connected to the DocuMind RAG shell.
               </p>
               <p>
-                The current response is mocked. In the next steps we&apos;ll wire in
-                PDF embeddings, semantic retrieval, and grounded generation.
+                Upload a PDF on the left, then ask grounded questions about its
+                contents here.
               </p>
               <ul className="mt-2 list-disc space-y-1 pl-4 text-[11px] text-slate-400">
                 <li>“Summarize the key risks in our latest vendor contract.”</li>
@@ -73,12 +89,6 @@ export function ChatInterface() {
               </div>
             </div>
           )}
-
-          {error && (
-            <div className="mt-2 rounded-2xl bg-destructive/15 px-3 py-2 text-[11px] text-destructive ring-1 ring-destructive/40">
-              <p>There was an issue talking to the chat endpoint.</p>
-            </div>
-          )}
         </div>
       </div>
 
@@ -86,8 +96,7 @@ export function ChatInterface() {
         onSubmit={(event) => {
           event.preventDefault()
           if (!input.trim()) return
-          // Delegate to the hook's submit handler so streaming still works.
-          ;(handleSubmit as (event?: { preventDefault?: () => void }) => void)()
+          handleSubmit(event)
         }}
         className="mt-3 flex items-center gap-2 rounded-2xl border border-white/15 bg-slate-950/70 p-2 text-xs shadow-inner shadow-slate-950/60"
       >
