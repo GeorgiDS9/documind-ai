@@ -1,13 +1,15 @@
 "use client"
 
 import { useCompletion } from "@ai-sdk/react"
-import { ArrowUpRight, Sparkles, User } from "lucide-react"
+import { ArrowUpRight, Sparkles } from "lucide-react"
 
+import { useSessionId } from "@/hooks/use-session-id"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 
 export function ChatInterface() {
+  const sessionId = useSessionId()
   const {
     completion,
     input,
@@ -17,6 +19,7 @@ export function ChatInterface() {
     error,
   } = useCompletion({
     api: "/api/chat",
+    body: sessionId ? { sessionId } : undefined,
   })
 
   return (
@@ -80,7 +83,12 @@ export function ChatInterface() {
       </div>
 
       <form
-        onSubmit={handleSubmit}
+        onSubmit={(event) => {
+          event.preventDefault()
+          if (!input.trim()) return
+          // Delegate to the hook's submit handler so streaming still works.
+          ;(handleSubmit as (event?: { preventDefault?: () => void }) => void)()
+        }}
         className="mt-3 flex items-center gap-2 rounded-2xl border border-white/15 bg-slate-950/70 p-2 text-xs shadow-inner shadow-slate-950/60"
       >
         <Input
