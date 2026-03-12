@@ -1,22 +1,22 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
-import { useCompletion } from "@ai-sdk/react"
-import { ArrowUpRight, Sparkles } from "lucide-react"
+import { useCompletion } from "@ai-sdk/react";
+import { ArrowUpRight, Sparkles } from "lucide-react";
 
-import type { RetrievedChunk } from "@/lib/ai/rag-engine"
-import { useSessionId } from "@/hooks/use-session-id"
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { useToast } from "@/components/ui/use-toast"
+import type { RetrievedChunk } from "@/lib/ai/rag-engine";
+import { useSessionId } from "@/hooks/use-session-id";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
 
 export function ChatInterface() {
-  const sessionId = useSessionId()
-  const { toast } = useToast()
+  const sessionId = useSessionId();
+  const { toast } = useToast();
 
-  const [sources, setSources] = useState<RetrievedChunk[]>([])
+  const [sources, setSources] = useState<RetrievedChunk[]>([]);
 
   const {
     completion,
@@ -28,26 +28,26 @@ export function ChatInterface() {
   } = useCompletion({
     api: "/api/chat",
     body: sessionId ? { sessionId } : undefined,
-  })
+  });
 
   useEffect(() => {
-    if (!error) return
+    if (!error) return;
 
     toast({
       title: "Chat error",
       description:
         error.message ||
         "DocuMind AI ran into an issue generating a response. Please try again.",
-    })
-  }, [error, toast])
+    });
+  }, [error, toast]);
 
   async function fetchSources(prompt: string) {
     if (!sessionId) {
       toast({
         title: "Preparing workspace",
         description: "Please wait a moment and try again.",
-      })
-      return
+      });
+      return;
     }
 
     try {
@@ -60,26 +60,26 @@ export function ChatInterface() {
           query: prompt,
           sessionId,
         }),
-      })
+      });
 
       if (!response.ok) {
-        const data = (await response.json().catch(() => null)) as
-          | { error?: string }
-          | null
+        const data = (await response.json().catch(() => null)) as {
+          error?: string;
+        } | null;
         throw new Error(
           data?.error || "Failed to retrieve source snippets for this answer.",
-        )
+        );
       }
 
-      const data = (await response.json()) as { sources?: RetrievedChunk[] }
-      setSources(data.sources ?? [])
+      const data = (await response.json()) as { sources?: RetrievedChunk[] };
+      setSources(data.sources ?? []);
     } catch (err) {
       toast({
         title: "Source retrieval failed",
         description:
           (err as Error).message ||
           "We couldn’t load the source snippets. The answer may still be correct, but less verifiable.",
-      })
+      });
     }
   }
 
@@ -111,9 +111,12 @@ export function ChatInterface() {
                 contents here.
               </p>
               <ul className="mt-2 list-disc space-y-1 pl-4 text-[11px] text-slate-400">
-                <li>“Summarize the key risks in our latest vendor contract.”</li>
                 <li>
-                  “Compare Q3 vs Q4 performance from the attached financial report.”
+                  “Summarize the key risks in our latest vendor contract.”
+                </li>
+                <li>
+                  “Compare Q3 vs Q4 performance from the attached financial
+                  report.”
                 </li>
                 <li>“What are the core findings from this research PDF?”</li>
               </ul>
@@ -139,29 +142,33 @@ export function ChatInterface() {
 
       <form
         onSubmit={(event) => {
-          event.preventDefault()
-          const value = input.trim()
-          if (!value) return
+          const value = input.trim();
+          if (!value) {
+            event.preventDefault();
+            return;
+          }
 
           if (
             typeof window !== "undefined" &&
             !window.localStorage.getItem("documind-ai-ingested")
           ) {
+            event.preventDefault();
             toast({
               title: "Upload a PDF first",
               description:
                 "Ingest at least one PDF on the left before asking questions.",
-            })
-            return
+            });
+            return;
           }
 
-          setSources([])
-          handleSubmit(event)
-          void fetchSources(value)
+          // Let useCompletion handle the actual /api/chat request
+          handleSubmit(event);
         }}
         className="mt-3 flex items-center gap-2 rounded-2xl border border-white/15 bg-slate-950/70 p-2 text-xs shadow-inner shadow-slate-950/60"
       >
+        {/* Input + Button unchanged */}
         <Input
+          name="prompt"
           value={input}
           onChange={handleInputChange}
           placeholder="Ask a question about your PDFs…"
@@ -189,11 +196,12 @@ export function ChatInterface() {
                   typeof navigator !== "undefined" &&
                   navigator.clipboard?.writeText
                 ) {
-                  void navigator.clipboard.writeText(source.text)
+                  void navigator.clipboard.writeText(source.text);
                   toast({
                     title: `Source ${index + 1} copied`,
-                    description: "The full source snippet is now in your clipboard.",
-                  })
+                    description:
+                      "The full source snippet is now in your clipboard.",
+                  });
                 }
               }}
             >
@@ -203,6 +211,5 @@ export function ChatInterface() {
         </div>
       )}
     </Card>
-  )
+  );
 }
-
