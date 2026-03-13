@@ -1,5 +1,7 @@
 # 🧠 DocuMind AI: Evidence-First RAG for Document Intelligence
 
+**[🚀 View Live Demo](https://documind-ai-three.vercel.app)** | **[📂 View Codebase](https://github.com/GeorgiDS9/documind-ai)**
+
 **Modern AI Orchestration | Next.js 15 | Verifiable Citations**
 
 DocuMind AI is a professional Retrieval-Augmented Generation (RAG) platform designed to transform static PDFs into interactive, grounded intelligence. Built in **March 2026**, this project focuses on **AI reliability** and **source transparency**, ensuring every response is backed by specific evidence from the uploaded documentation.
