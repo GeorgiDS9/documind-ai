@@ -1,4 +1,5 @@
 export const dynamic = 'force-dynamic';
+export const maxDuration = 30; // Gives the AI time to think before Vercel kills it
 
 import { NextResponse } from "next/server"
 import { streamText } from "ai"

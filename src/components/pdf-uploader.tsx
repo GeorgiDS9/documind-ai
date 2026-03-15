@@ -1,74 +1,74 @@
-"use client"
+"use client";
 
-import { CloudUpload, FileText, Sparkles } from "lucide-react"
+import { CloudUpload, FileText, Sparkles } from "lucide-react";
 
-import { useSessionId } from "@/hooks/use-session-id"
-import { Card } from "@/components/ui/card"
-import { useToast } from "@/components/ui/use-toast"
+import { useSessionId } from "@/hooks/use-session-id";
+import { Card } from "@/components/ui/card";
+import { useToast } from "@/components/ui/use-toast";
 
-import { useState } from "react"
+import { useState } from "react";
 
 export function PDFUploader() {
-  const sessionId = useSessionId()
-  const { toast } = useToast()
-  const [isProcessing, setIsProcessing] = useState(false)
+  const sessionId = useSessionId();
+  const { toast } = useToast();
+  const [isProcessing, setIsProcessing] = useState(false);
 
   async function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0]
+    const file = event.target.files?.[0];
 
-    if (!file) return
+    if (!file) return;
     if (file.type !== "application/pdf") {
       toast({
         title: "Unsupported file type",
         description: "Please upload a PDF document.",
-      })
-      return
+      });
+      return;
     }
 
     if (!sessionId) {
       toast({
         title: "Preparing workspace",
         description: "Please wait a moment and try again.",
-      })
-      return
+      });
+      return;
     }
 
-    setIsProcessing(true)
+    setIsProcessing(true);
     try {
-      const formData = new FormData()
-      formData.append("file", file)
-      formData.append("sessionId", sessionId)
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("sessionId", sessionId);
 
       const response = await fetch("/api/rag/ingest", {
         method: "POST",
         body: formData,
-      })
+      });
 
       if (!response.ok) {
-        const data = (await response.json().catch(() => null)) as
-          | { error?: string }
-          | null
-        throw new Error(data?.error || "Failed to ingest document.")
+        const data = (await response.json().catch(() => null)) as {
+          error?: string;
+        } | null;
+        throw new Error(data?.error || "Failed to ingest document.");
       }
 
       if (typeof window !== "undefined") {
-        window.localStorage.setItem("documind-ai-ingested", "true")
+        window.localStorage.setItem("documind-ai-ingested", "true");
       }
 
       toast({
         title: "Document ready for chat!",
         description: "Ask a question in the chat panel to query this PDF.",
-      })
+      });
     } catch (error) {
       toast({
         title: "Ingestion failed",
         description:
           (error as Error).message ||
           "We couldn’t prepare this document. Please try again.",
-      })
+      });
     } finally {
-      setIsProcessing(false)
-      event.target.value = ""
+      setIsProcessing(false);
+      event.target.value = "";
     }
   }
 
@@ -79,17 +79,17 @@ export function PDFUploader() {
 
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="space-y-1.5">
-            <div className="inline-flex items-center gap-2 rounded-full bg-slate-900/70 px-2.5 py-1 text-[11px] font-medium text-slate-200 ring-1 ring-white/10">
+            <div className="inline-flex items-center gap-2 rounded-full bg-slate-900/70 px-2.5 py-1 text-xs font-medium text-slate-200 ring-1 ring-white/10">
               <CloudUpload className="size-3 text-sky-300" />
               <span>PDF ingestion pipeline</span>
             </div>
-            <p className="text-sm text-slate-200/90">
-              Upload compliance decks, research PDFs, or contracts. We&apos;ll slice
-              them into semantic chunks and prep them for RAG.
+            <p className="text-sm text-slate-100">
+              Upload compliance decks, research PDFs, or contracts. We&apos;ll
+              slice them into semantic chunks and prep them for RAG.
             </p>
             <p className="text-[11px] text-slate-400">
-              Each upload is split into 1000-character slices, embedded, and stored
-              for this session only.
+              Each upload is split into 1000-character slices, embedded, and
+              stored for this session only.
             </p>
           </div>
 
@@ -105,7 +105,7 @@ export function PDFUploader() {
                 disabled={isProcessing}
               />
             </label>
-            <div className="inline-flex items-center gap-1.5 rounded-full bg-slate-900/80 px-2 py-1 text-[10px] text-slate-300 ring-1 ring-white/10">
+            <div className="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-slate-900/80 px-3.5 py-1.5 text-xs text-slate-300 ring-1 ring-white/10">
               <Sparkles className="size-3 text-violet-300" />
               <span>RAG-ready ingestion pipeline</span>
             </div>
@@ -116,24 +116,24 @@ export function PDFUploader() {
       <Card className="border-white/10 bg-slate-950/40 p-3 backdrop-blur-2xl">
         <div className="flex items-center justify-between gap-3">
           <div className="space-y-1">
-            <p className="text-xs font-medium text-slate-200/90">
+            <p className="text-xs font-medium text-slate-100">
               Recent workspaces
             </p>
             <p className="text-[11px] text-slate-400">
-              Once ingestion is live, your latest PDF collections will appear here.
+              Once ingestion is live, your latest PDF collections will appear
+              here.
             </p>
           </div>
-          <div className="flex gap-1.5">
-            <span className="inline-flex items-center rounded-full bg-slate-900/80 px-2 py-0.5 text-[10px] text-slate-300 ring-1 ring-white/10">
+          <div className="flex flex-col gap-1.5">
+            <span className="inline-flex items-center whitespace-nowrap rounded-full bg-slate-900/80 px-3.5 py-1 text-[10px] text-slate-300 ring-1 ring-white/10">
               Session-based
             </span>
-            <span className="inline-flex items-center rounded-full bg-slate-900/80 px-2 py-0.5 text-[10px] text-slate-300 ring-1 ring-white/10">
+            <span className="inline-flex items-center whitespace-nowrap rounded-full bg-slate-900/80 px-4.5 py-1 text-[10px] text-slate-300 ring-1 ring-white/10">
               In-memory vector store
             </span>
           </div>
         </div>
       </Card>
     </div>
-  )
+  );
 }
-

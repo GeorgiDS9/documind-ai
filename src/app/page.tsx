@@ -1,7 +1,7 @@
-import { Brain, FileText, MessageCircle } from "lucide-react"
+import { Brain, FileText, MessageCircle } from "lucide-react";
 
-import { PDFUploader } from "@/components/pdf-uploader"
-import { ChatInterface } from "@/components/chat-interface"
+import { PDFUploader } from "@/components/pdf-uploader";
+import { ChatInterface } from "@/components/chat-interface";
 
 export default function Home() {
   return (
@@ -42,8 +42,8 @@ export default function Home() {
                   Turn static PDFs into live, searchable knowledge.
                 </h1>
                 <p className="mt-2 max-w-md text-sm text-slate-300/80">
-                  Ingest assets once, then ask precise, auditable questions powered by
-                  retrieval-augmented generation.
+                  Ingest assets once, then ask precise, auditable questions
+                  powered by retrieval-augmented generation.
                 </p>
               </div>
             </div>
@@ -53,7 +53,7 @@ export default function Home() {
 
           <article className="relative flex min-h-[460px] flex-col rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900/70 via-slate-950/80 to-slate-900/90 p-4 shadow-[0_0_0_1px_rgba(148,163,184,0.4),0_18px_60px_rgba(15,23,42,0.9)] backdrop-blur-3xl">
             <div className="mb-3 flex items-center justify-between gap-3 px-1">
-              <div className="inline-flex items-center gap-2 rounded-full bg-slate-900/70 px-3 py-1 text-xs font-medium text-slate-200/90 ring-1 ring-white/10">
+              <div className="inline-flex items-center gap-2 rounded-full bg-slate-900/70 px-3 py-1 text-xs font-medium text-slate-100 ring-1 ring-white/10">
                 <MessageCircle className="size-3.5 text-violet-300" />
                 <span>Chat with your documents</span>
               </div>
@@ -68,5 +68,5 @@ export default function Home() {
         </section>
       </main>
     </div>
-  )
+  );
 }
