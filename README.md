@@ -1,5 +1,7 @@
 # 🧠 DocuMind AI: Evidence-First RAG for Document Intelligence
 
+[![License: MIT](https://img.shields.io)](https://opensource.org)
+
 **[🚀 View Live Demo](https://documind-ai-three.vercel.app)** | **[📂 View Codebase](https://github.com/GeorgiDS9/documind-ai)**
 
 **Modern AI Orchestration | Next.js 15 | Verifiable Citations**
@@ -43,6 +45,19 @@ DocuMind AI is a professional Retrieval-Augmented Generation (RAG) platform desi
 
 **Challenge:** Passing an entire PDF to an LLM is costly and leads to "lost-in-the-middle" accuracy issues.
 **Solution:** Implemented a **RecursiveCharacterTextSplitter** with a 1000-character chunk size and 200-character overlap. This preserves semantic context across chunk boundaries, significantly improving retrieval accuracy for complex queries.
+
+---
+
+## ⚠️ Infrastructure Limitation
+
+> [!WARNING]
+> DocuMind AI utilizes an **Ephemeral In-Memory Store** (`MemoryVectorStore`) for its RAG engine.
+>
+> Due to the stateless nature of **Vercel Serverless Functions**, the application "forgets" the document context immediately after ingestion in the deployed environment. This results in the AI responding with _"I don't know"_ and missing source pills during live chat.
+>
+> **To verify this test locally (where the memory persists), follow the [Getting Started](#-getting-started) instructions below.**
+
+> **For the full persistent experience (Cloud Storage, Multi-Session Retrieval, and Hardened Monitoring), please visit [🛡️ Sentinel Docs](https://github.com/GeorgiDS9/sentinel-docs) — a production-grade evolution of this project utilizing Upstash Vector for permanent cloud memory.**
 
 ---
 
