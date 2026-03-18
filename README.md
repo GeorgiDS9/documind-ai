@@ -1,12 +1,10 @@
 # 🧠 DocuMind AI: Evidence-First RAG for Document Intelligence
 
-[![License: MIT](https://img.shields.io)](https://opensource.org)
-
 **[🚀 View Live Demo](https://documind-ai-three.vercel.app)** | **[📂 View Codebase](https://github.com/GeorgiDS9/documind-ai)**
 
 **Modern AI Orchestration | Next.js 15 | Verifiable Citations**
 
-DocuMind AI is a professional Retrieval-Augmented Generation (RAG) platform designed to transform static PDFs into interactive, grounded intelligence. Built in **March 2026**, this project focuses on **AI reliability** and **source transparency**, ensuring every response is backed by specific evidence from the uploaded documentation.
+**DocuMind AI** is a professional **Retrieval-Augmented Generation (RAG)** platform designed to transform static PDFs into interactive, grounded intelligence. Built in **March 2026**, this project focuses on **AI reliability** and **source transparency**, ensuring every response is backed by specific evidence from the uploaded documentation.
 
 ---
 
@@ -72,6 +70,8 @@ To ensure the RAG engine is 100% grounded and ignoring its own pre-trained biase
 ![Neon Pink Moon](./docs/assets/neon-pink-moon.png)
 
 _The RAG engine successfully identifies the "Neon Pink" moon color, bypassing general LLM training._
+
+---
 
 ### 📋 Sample Test Data
 
