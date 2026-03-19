@@ -1,6 +1,8 @@
 {
   "name": "documind-ai",
   "version": "0.1.0",
+  "license": "MIT",
+  "author": "GeorgiDS9 georgianachiriacweb@gmail.com",
   "private": true,
   "scripts": {
     "dev": "next dev",
