@@ -8,7 +8,7 @@
 
 ---
 
-## 🚀 Key Features
+## ✨ Key Features
 
 - **Evidence-First Chat:** Implemented a metadata-driven retrieval system that provides "Source Pills" for every response, allowing users to verify AI claims against raw PDF text.
 - **Streaming Serverless Architecture:** Optimized for Vercel/Serverless environments using the Vercel AI SDK to bypass 10-second execution timeouts via real-time token streaming.
@@ -106,6 +106,6 @@ To verify the grounding of the RAG engine, I utilized the following "nonsense" d
 
 ---
 
-### **Engineering Philosophy**
+### 🧭 **Engineering Philosophy**
 
 As an engineer with nearly 5 years of experience in security environments (Trend Micro), I believe AI should be a "glass box," not a "black box." DocuMind AI demonstrates my ability to build **verifiable**, **cost-efficient**, and **secure** AI systems.
