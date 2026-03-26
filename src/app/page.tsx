@@ -11,7 +11,7 @@ export default function Home() {
         <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full bg-violet-500/20 blur-3xl" />
       </div>
 
-      <main className="container relative z-10 flex min-h-screen max-w-6xl flex-col gap-8 px-4 py-10 md:py-12">
+      <main className="relative z-10 flex min-h-screen max-w-6xl flex-col gap-8 ml-32 px-4 py-10 md:py-12">
         <header className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
           <div className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium shadow-sm backdrop-blur-xl dark:bg-slate-900/40">
             <span className="inline-flex size-6 items-center justify-center rounded-full bg-sky-500/15 text-sky-300 ring-1 ring-sky-500/40">
@@ -29,7 +29,6 @@ export default function Home() {
             </div>
           </div>
         </header>
-
         <section className="grid flex-1 gap-6 md:grid-cols-[minmax(0,0.95fr)_minmax(0,1.4fr)]">
           <article className="relative flex flex-col gap-4 rounded-3xl border border-white/10 bg-white/10 p-5 shadow-[0_0_0_1px_rgba(148,163,184,0.35),0_18px_60px_rgba(15,23,42,0.9)] backdrop-blur-3xl dark:bg-slate-900/50">
             <div className="flex items-start justify-between gap-3">
