@@ -2,7 +2,7 @@
 
 **[🚀 View Live Demo](https://documind-ai-three.vercel.app)** | **[📂 View Codebase](https://github.com/GeorgiDS9/documind-ai)**
 
-**Modern AI Orchestration | Next.js 15 | Verifiable Citations**
+**Modern AI Orchestration | Next.js 16 | Verifiable Citations**
 
 **DocuMind AI** is a professional **Retrieval-Augmented Generation (RAG)** platform designed to transform static PDFs into interactive, grounded intelligence. Built in **March 2026**, this project focuses on **AI reliability** and **source transparency**, ensuring every response is backed by specific evidence from the uploaded documentation.
 
@@ -19,7 +19,7 @@
 
 ## 🛠️ Tech Stack
 
-- **Frontend:** Next.js 15 (App Router), Tailwind CSS, Shadcn/UI (**Nova Glassmorphic Theme**)
+- **Frontend:** Next.js 16 (App Router), Tailwind CSS, Shadcn/UI (**Nova Glassmorphic Theme**)
 - **AI Orchestration:** LangChain.js & Vercel AI SDK
 - **LLM & Embeddings:** OpenAI `gpt-4o-mini` & `text-embedding-3-small`
 - **PDF Processing:** `pdf2json` (Server-side text extraction)
@@ -31,7 +31,7 @@
 
 ### 1. The "DOMMatrix" Server-Side Conflict
 
-**Challenge:** Standard PDF libraries (like `pdf-parse`) often rely on browser-only Canvas APIs, causing `DOMMatrix is not defined` crashes in Next.js 15 server environments.
+**Challenge:** Standard PDF libraries (like `pdf-parse`) often rely on browser-only Canvas APIs, causing `DOMMatrix is not defined` crashes in Next.js 16 server environments.
 **Solution:** Refactored the ingestion pipeline to use `pdf2json` in a strict text-only mode with `globalThis` polyfills. This ensured stable server-side parsing without the overhead of browser-dependent renderers or Canvas dependencies.
 
 ### 2. Stream Protocol Alignment
