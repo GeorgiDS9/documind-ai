@@ -56,6 +56,14 @@
 
 ---
 
+> [!TIP]
+>
+> **🧭 Architecture Flows:** For end-to-end flow views across PDF ingestion, RAG retrieval, session isolation, and source citations, see [`ARCHITECTURE_FLOWS.md`](./docs/ARCHITECTURE_FLOWS.md).
+> <br />
+> **Hardening Roadmap:** For architecture maturity scope, near-term reliability baseline, and intentionally deferred initiatives, see [`HARDENING_ROADMAP.md`](./docs/HARDENING_ROADMAP.md).
+
+---
+
 ## ⚠️ Infrastructure Limitation
 
 > [!WARNING]
