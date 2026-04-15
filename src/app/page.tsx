@@ -1,12 +1,5 @@
 import Link from "next/link";
-import {
-  Brain,
-  FileText,
-  Search,
-  Shield,
-  Zap,
-  ArrowRight,
-} from "lucide-react";
+import { Brain, FileText, Search, Shield, Zap, ArrowRight } from "lucide-react";
 
 import { Pill } from "@/components/ui/pill";
 
@@ -87,7 +80,7 @@ export default function LandingPage() {
             href="/workspace"
             className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium text-slate-200 shadow-sm backdrop-blur-xl transition hover:border-sky-400/40 hover:text-sky-200"
           >
-            Open workspace
+            Open Workspace
             <ArrowRight className="size-3" />
           </Link>
         </nav>
@@ -99,8 +92,7 @@ export default function LandingPage() {
           </Pill>
 
           <h1 className="max-w-3xl text-balance text-4xl font-semibold tracking-tight text-slate-50 md:text-5xl lg:text-6xl">
-            DocuMind{" "}
-            <span className="text-sky-300">AI</span>
+            DocuMind <span className="text-sky-300">AI</span>
           </h1>
 
           <p className="mt-5 max-w-xl text-balance text-sm text-slate-300/80 md:text-base">
