@@ -92,10 +92,8 @@ export default function LandingPage() {
           </div>
 
           <h1 className="max-w-3xl text-balance text-4xl font-semibold tracking-tight text-slate-50 md:text-5xl lg:text-6xl">
-            Turn static PDFs into{" "}
-            <span className="bg-linear-to-r from-sky-300 to-violet-300 bg-clip-text text-transparent">
-              live, grounded intelligence.
-            </span>
+            DocuMind{" "}
+            <span className="text-sky-300">AI</span>
           </h1>
 
           <p className="mt-5 max-w-xl text-balance text-sm text-slate-300/80 md:text-base">
@@ -112,7 +110,6 @@ export default function LandingPage() {
               Start with your PDF
               <ArrowRight className="size-3.5" />
             </Link>
-            <span className="text-xs text-slate-500">No sign-up required</span>
           </div>
         </section>
 

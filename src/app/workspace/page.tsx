@@ -1,4 +1,5 @@
-import { Brain, FileText, MessageCircle } from "lucide-react";
+import Link from "next/link";
+import { ArrowLeft, Brain, FileText, MessageCircle } from "lucide-react";
 
 import { PDFUploader } from "@/components/pdf-uploader";
 import { ChatInterface } from "@/components/chat-interface";
@@ -27,6 +28,13 @@ export default function WorkspacePage() {
               <span className="size-2 rounded-full bg-emerald-400 shadow-[0_0_0_3px_rgba(34,197,94,0.35)]" />
               <span>Live RAG shell</span>
             </div>
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium text-slate-200 shadow-sm backdrop-blur-xl transition hover:border-sky-400/40 hover:text-sky-200"
+            >
+              <ArrowLeft className="size-3" />
+              Return Home
+            </Link>
           </div>
         </header>
 
