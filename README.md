@@ -17,6 +17,16 @@
 
 ---
 
+## 🖼️ Product Snapshot
+
+**DocuMind AI Landing Page**
+![Sentinel Landing Page](./docs/assets/documind-landing-page.png)
+
+**DocuMind AI Workspace**
+![DocuMind AI Landing Page](./docs/assets/documind-workspace.png)
+
+---
+
 ## 🛠️ Tech Stack
 
 - **Frontend:** Next.js 16 (App Router), Tailwind CSS, Shadcn/UI (**Nova Glassmorphic Theme**)
