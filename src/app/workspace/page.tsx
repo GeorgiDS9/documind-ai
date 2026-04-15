@@ -24,7 +24,7 @@ export default function WorkspacePage() {
           </div>
 
           <div className="flex items-center gap-3 text-xs text-slate-300/80">
-            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-400/40 bg-emerald-500/10 px-3 py-1 font-medium text-emerald-100 shadow-sm backdrop-blur">
+            <div className="inline-flex items-center justify-center gap-2 rounded-full border border-emerald-400/40 bg-emerald-500/10 px-4 py-1.5 font-medium text-emerald-100 shadow-sm backdrop-blur">
               <span className="size-2 rounded-full bg-emerald-400 shadow-[0_0_0_3px_rgba(34,197,94,0.35)]" />
               <span>Live RAG shell</span>
             </div>
