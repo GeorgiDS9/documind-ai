@@ -88,7 +88,7 @@ export function ChatInterface() {
   }
 
   return (
-    <Card className="flex h-full min-h-[420px] flex-col border-white/15 bg-slate-950/40 p-3 backdrop-blur-2xl">
+    <Card className="flex h-full max-h-105 flex-col border-white/15 bg-slate-950/40 p-3 backdrop-blur-2xl">
       <div className="flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-slate-900/80 px-3 py-2 text-xs text-slate-200 shadow-sm">
         <div className="flex items-center gap-2">
           <div className="inline-flex size-6 items-center justify-center rounded-full bg-violet-500/20 text-violet-200 ring-1 ring-violet-400/50">
@@ -96,14 +96,14 @@ export function ChatInterface() {
           </div>
           <div className="flex flex-col">
             <span className="font-medium">DocuMind AI</span>
-            <span className="text-[10px] text-slate-400">
+            <span className="text-[11px] text-slate-400">
               Ask anything about your PDFs once ingestion is connected.
             </span>
           </div>
         </div>
       </div>
 
-      <div className="mt-3 flex-1 max-h-[420px] rounded-2xl border border-white/10 bg-slate-950/60 px-3 py-2">
+      <div className="mt-3 flex-1 max-h-105 rounded-2xl border border-white/10 bg-slate-950/60 px-3 py-2">
         <div className="flex h-full flex-col gap-2 overflow-y-auto pb-1 pt-0">
           {showWelcome && (
             <div className="mt-4 space-y-2 rounded-2xl bg-slate-900/80 p-3 text-xs text-slate-300 ring-1 ring-white/10">
@@ -130,7 +130,7 @@ export function ChatInterface() {
           {completion && (
             <div className="flex justify-start">
               <div className="inline-flex max-w-[85%] items-start gap-2 rounded-2xl bg-slate-900/80 px-3 py-2 text-xs text-slate-50 shadow-sm ring-1 ring-white/10">
-                <div className="mt-[1px]">
+                <div className="mt-px">
                   <div className="inline-flex size-5 items-center justify-center rounded-full bg-violet-500/20 text-violet-200 ring-1 ring-violet-400/40">
                     <Sparkles className="size-3" />
                   </div>

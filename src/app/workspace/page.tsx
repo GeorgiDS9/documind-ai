@@ -42,7 +42,7 @@ export default function WorkspacePage() {
           <article className="relative flex flex-col gap-4 rounded-3xl border border-white/10 bg-white/10 p-5 shadow-[0_0_0_1px_rgba(148,163,184,0.35),0_18px_60px_rgba(15,23,42,0.9)] backdrop-blur-3xl dark:bg-slate-900/50">
             <div className="flex items-start justify-between gap-3">
               <div>
-                <div className="inline-flex items-center gap-2 rounded-full bg-slate-900/60 px-3 py-1 text-xs font-medium text-slate-200 shadow-sm ring-1 ring-white/10">
+                <div className="inline-flex items-center gap-2 rounded-full bg-slate-900/60 px-3 py-1 text-[13px] font-medium text-slate-200 shadow-sm ring-1 ring-white/10">
                   <FileText className="size-3.5 text-sky-300" />
                   <span>Document workspace</span>
                 </div>
@@ -59,13 +59,13 @@ export default function WorkspacePage() {
             <PDFUploader />
           </article>
 
-          <article className="relative flex min-h-[460px] flex-col rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900/70 via-slate-950/80 to-slate-900/90 p-4 shadow-[0_0_0_1px_rgba(148,163,184,0.4),0_18px_60px_rgba(15,23,42,0.9)] backdrop-blur-3xl">
+          <article className="relative flex min-h-115 flex-col rounded-3xl border border-white/10 bg-linear-to-br from-slate-900/70 via-slate-950/80 to-slate-900/90 p-4 shadow-[0_0_0_1px_rgba(148,163,184,0.4),0_18px_60px_rgba(15,23,42,0.9)] backdrop-blur-3xl">
             <div className="mb-3 flex items-center justify-between gap-3 px-1">
-              <div className="inline-flex items-center gap-2 rounded-full bg-slate-900/70 px-3 py-1 text-xs font-medium text-slate-100 ring-1 ring-white/10">
+              <div className="inline-flex items-center gap-2 rounded-full bg-slate-900/70 px-3 py-1 text-[13px] font-medium text-slate-100 ring-1 ring-white/10">
                 <MessageCircle className="size-3.5 text-violet-300" />
                 <span>Chat with your documents</span>
               </div>
-              <div className="flex items-center gap-1.5 text-[10px] text-slate-300/70">
+              <div className="flex items-center gap-1.5 text-[11px] text-slate-300/70">
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_0_3px_rgba(34,197,94,0.35)]" />
                 <span>GPT-4o-mini · RAG shell</span>
               </div>

@@ -87,7 +87,7 @@ export function PDFUploader() {
               Upload compliance decks, research PDFs, or contracts. We&apos;ll
               slice them into semantic chunks and prep them for RAG.
             </p>
-            <p className="text-[11px] text-slate-400">
+            <p className="text-[12px] text-slate-400">
               Each upload is split into 1000-character slices, embedded, and
               stored for this session only.
             </p>
@@ -116,19 +116,19 @@ export function PDFUploader() {
       <Card className="border-white/10 bg-slate-950/40 p-3 backdrop-blur-2xl">
         <div className="flex items-center justify-between gap-3">
           <div className="space-y-1">
-            <p className="text-xs font-medium text-slate-100">
+            <p className="text-[13px] font-medium text-slate-100">
               Recent workspaces
             </p>
-            <p className="text-[11px] text-slate-400">
+            <p className="text-[12px] text-slate-400">
               Once ingestion is live, your latest PDF collections will appear
               here.
             </p>
           </div>
           <div className="flex flex-col gap-1.5">
-            <span className="inline-flex items-center whitespace-nowrap rounded-full bg-slate-900/80 px-3.5 py-1 text-[10px] text-slate-300 ring-1 ring-white/10">
+            <span className="inline-flex items-center whitespace-nowrap rounded-full bg-slate-900/80 px-3.5 py-1 text-[12px] text-slate-300 ring-1 ring-white/10">
               Session-based
             </span>
-            <span className="inline-flex items-center whitespace-nowrap rounded-full bg-slate-900/80 px-4.5 py-1 text-[10px] text-slate-300 ring-1 ring-white/10">
+            <span className="inline-flex items-center whitespace-nowrap rounded-full bg-slate-900/80 px-4.5 py-1 text-[12px] text-slate-300 ring-1 ring-white/10">
               In-memory vector store
             </span>
           </div>
