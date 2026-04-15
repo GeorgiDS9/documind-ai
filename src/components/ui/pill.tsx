@@ -22,7 +22,7 @@ const variantStyles: Record<PillVariant, string> = {
 
 const sizeStyles: Record<PillSize, string> = {
   sm: "px-2.5 py-0.5 text-[11px]",
-  md: "px-3.5 py-1.5 text-xs",
+  md: "px-3.5 py-1.5 text-xs shadow-sm",
 };
 
 const dotStyles: Record<PillVariant, string> = {
@@ -43,7 +43,7 @@ export function Pill({
   return (
     <div
       className={cn(
-        "inline-flex items-center gap-2 rounded-full font-medium shadow-sm",
+        "inline-flex w-fit items-center gap-2 rounded-full font-medium",
         variantStyles[variant],
         sizeStyles[size],
         className,
