@@ -8,7 +8,19 @@ import {
   ArrowRight,
 } from "lucide-react";
 
-const features = [
+import { Pill } from "@/components/ui/pill";
+
+import type { PillProps } from "@/components/ui/pill";
+
+const features: {
+  icon: React.ComponentType<{ className?: string }>;
+  iconColor: string;
+  iconBg: string;
+  title: string;
+  description: string;
+  badge: string;
+  badgeVariant: PillProps["variant"];
+}[] = [
   {
     icon: FileText,
     iconColor: "text-sky-300",
@@ -17,8 +29,7 @@ const features = [
     description:
       "Upload any PDF. Text is extracted, split into 1,000-character chunks with 200-character overlap, and embedded via OpenAI for precision semantic retrieval.",
     badge: "text-embedding-3-small",
-    badgeColor: "text-sky-300",
-    badgeBg: "bg-sky-500/10 ring-sky-500/20",
+    badgeVariant: "sky",
   },
   {
     icon: Search,
@@ -28,8 +39,7 @@ const features = [
     description:
       "Every response is grounded in your document content. Clickable source pills expose the exact chunks backing each answer — no hallucination, no guesswork.",
     badge: "Top-3 cosine retrieval",
-    badgeColor: "text-violet-300",
-    badgeBg: "bg-violet-500/10 ring-violet-500/20",
+    badgeVariant: "violet",
   },
   {
     icon: Zap,
@@ -39,8 +49,7 @@ const features = [
     description:
       "Answers stream token-by-token from GPT-4o-mini the moment retrieval completes — optimised for serverless execution with no perceptible wait.",
     badge: "gpt-4o-mini · RAG",
-    badgeColor: "text-amber-300",
-    badgeBg: "bg-amber-500/10 ring-amber-500/20",
+    badgeVariant: "amber",
   },
   {
     icon: Shield,
@@ -50,8 +59,7 @@ const features = [
     description:
       "Your documents never leave the session. All vectors live in memory and are discarded when the session ends — nothing is written to a persistent database.",
     badge: "In-memory · No persistence",
-    badgeColor: "text-emerald-300",
-    badgeBg: "bg-emerald-500/10 ring-emerald-500/20",
+    badgeVariant: "emerald",
   },
 ];
 
@@ -86,10 +94,9 @@ export default function LandingPage() {
 
         {/* Hero */}
         <section className="mb-20 flex flex-col items-center text-center">
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-slate-900/60 px-3.5 py-1.5 text-[11px] font-medium text-slate-300 shadow-sm ring-1 ring-white/10">
-            <span className="size-1.5 rounded-full bg-emerald-400 shadow-[0_0_0_3px_rgba(34,197,94,0.35)]" />
+          <Pill variant="neutral" size="md" dot className="mb-5">
             RAG-native · GPT-4o-mini · Session-isolated
-          </div>
+          </Pill>
 
           <h1 className="max-w-3xl text-balance text-4xl font-semibold tracking-tight text-slate-50 md:text-5xl lg:text-6xl">
             DocuMind{" "}
@@ -143,12 +150,9 @@ export default function LandingPage() {
                   </p>
                 </div>
 
-                {/* Badge */}
-                <div
-                  className={`mt-auto inline-flex w-fit items-center rounded-full px-2.5 py-0.5 text-[10px] font-medium ring-1 ${feat.badgeBg} ${feat.badgeColor}`}
-                >
+                <Pill variant={feat.badgeVariant} size="sm" className="mt-auto">
                   {feat.badge}
-                </div>
+                </Pill>
               </div>
             ))}
           </div>
