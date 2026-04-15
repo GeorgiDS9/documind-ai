@@ -6,7 +6,7 @@ import { ChatInterface } from "@/components/chat-interface";
 
 export default function WorkspacePage() {
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#1e293b,_transparent_55%),radial-gradient(circle_at_bottom,_#020617,_#020617)] text-foreground">
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top,#1e293b,transparent_55%),radial-gradient(circle_at_bottom,#020617,#020617)] text-foreground">
       <div className="pointer-events-none fixed inset-0 opacity-60 mix-blend-screen">
         <div className="absolute -left-40 top-10 h-72 w-72 rounded-full bg-sky-500/20 blur-3xl" />
         <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full bg-violet-500/20 blur-3xl" />
