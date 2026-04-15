@@ -71,7 +71,10 @@ async function extractTextFromPdf(buffer: Buffer): Promise<string> {
   return new Promise((resolve, reject) => {
     const pdfParser = new PDFParser(null, true); // Use text-only mode
 
-    pdfParser.on("pdfParser_dataError", (errData: any) => reject(errData?.parserError || errData as Error));
+    pdfParser.on("pdfParser_dataError", (errData: unknown) => {
+      const error = errData as { parserError?: unknown } | Error;
+      reject((error as { parserError?: unknown })?.parserError || error);
+    });
     pdfParser.on("pdfParser_dataReady", () => {
       // Use the built-in raw text extractor - it's much more reliable than walking the JSON tree
       const rawText = pdfParser.getRawTextContent();
