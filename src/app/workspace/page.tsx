@@ -50,8 +50,8 @@ export default function WorkspacePage() {
                   Turn static PDFs into live, searchable knowledge.
                 </h1>
                 <p className="mt-2 max-w-md text-sm text-slate-300/80">
-                  Ingest assets once, then ask precise, auditable questions
-                  powered by retrieval-augmented generation.
+                  Ingest assets once, then ask precise, auditable questions powered by
+                  retrieval-augmented generation.
                 </p>
               </div>
             </div>

@@ -12,8 +12,7 @@ export interface PillProps {
 }
 
 const variantStyles: Record<PillVariant, string> = {
-  neutral:
-    "border border-white/10 bg-slate-900/60 text-slate-300 ring-1 ring-white/10",
+  neutral: "border border-white/10 bg-slate-900/60 text-slate-300 ring-1 ring-white/10",
   sky: "bg-sky-500/10 text-sky-300 ring-1 ring-sky-500/20",
   violet: "bg-violet-500/10 text-violet-300 ring-1 ring-violet-500/20",
   amber: "bg-amber-500/10 text-amber-300 ring-1 ring-amber-500/20",
@@ -49,9 +48,7 @@ export function Pill({
         className,
       )}
     >
-      {dot && (
-        <span className={cn("size-1.5 rounded-full", dotStyles[variant])} />
-      )}
+      {dot && <span className={cn("size-1.5 rounded-full", dotStyles[variant])} />}
       {children}
     </div>
   );

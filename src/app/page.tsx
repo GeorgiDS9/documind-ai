@@ -96,9 +96,8 @@ export default function LandingPage() {
           </h1>
 
           <p className="mt-5 max-w-xl text-balance text-sm text-slate-300/80 md:text-base">
-            DocuMind AI ingests your documents, embeds them semantically, and
-            answers your questions with evidence — not guesses. Every response
-            cites its source.
+            DocuMind AI ingests your documents, embeds them semantically, and answers your questions
+            with evidence — not guesses. Every response cites its source.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
@@ -134,12 +133,8 @@ export default function LandingPage() {
                 </div>
 
                 <div className="flex flex-col gap-1">
-                  <h2 className="text-sm font-semibold text-slate-100">
-                    {feat.title}
-                  </h2>
-                  <p className="text-[12px] leading-relaxed text-slate-400">
-                    {feat.description}
-                  </p>
+                  <h2 className="text-sm font-semibold text-slate-100">{feat.title}</h2>
+                  <p className="text-[12px] leading-relaxed text-slate-400">{feat.description}</p>
                 </div>
 
                 <Pill variant={feat.badgeVariant} size="sm" className="mt-auto">

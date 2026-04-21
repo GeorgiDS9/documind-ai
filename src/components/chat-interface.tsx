@@ -19,14 +19,7 @@ export function ChatInterface() {
   const [sources, setSources] = useState<RetrievedChunk[]>([]);
   const [hasStarted, setHasStarted] = useState(false);
 
-  const {
-    completion,
-    input,
-    isLoading,
-    handleInputChange,
-    handleSubmit,
-    error,
-  } = useCompletion({
+  const { completion, input, isLoading, handleInputChange, handleSubmit, error } = useCompletion({
     api: "/api/chat",
     body: { sessionId },
     streamProtocol: "text",
@@ -40,8 +33,7 @@ export function ChatInterface() {
     toast({
       title: "Chat error",
       description:
-        error.message ||
-        "DocuMind AI ran into an issue generating a response. Please try again.",
+        error.message || "DocuMind AI ran into an issue generating a response. Please try again.",
     });
   }, [error, toast]);
 
@@ -70,9 +62,7 @@ export function ChatInterface() {
         const data = (await response.json().catch(() => null)) as {
           error?: string;
         } | null;
-        throw new Error(
-          data?.error || "Failed to retrieve source snippets for this answer.",
-        );
+        throw new Error(data?.error || "Failed to retrieve source snippets for this answer.");
       }
 
       const data = (await response.json()) as { sources?: RetrievedChunk[] };
@@ -110,18 +100,10 @@ export function ChatInterface() {
               <p className="font-medium text-slate-100">
                 You&apos;re connected to the DocuMind RAG shell.
               </p>
-              <p>
-                Upload a PDF on the left, then ask grounded questions about its
-                contents here.
-              </p>
+              <p>Upload a PDF on the left, then ask grounded questions about its contents here.</p>
               <ul className="mt-2 list-disc space-y-1 pl-4 text-[11px] text-slate-400">
-                <li>
-                  “Summarize the key risks in our latest vendor contract.”
-                </li>
-                <li>
-                  “Compare Q3 vs Q4 performance from the attached financial
-                  report.”
-                </li>
+                <li>“Summarize the key risks in our latest vendor contract.”</li>
+                <li>“Compare Q3 vs Q4 performance from the attached financial report.”</li>
                 <li>“What are the core findings from this research PDF?”</li>
               </ul>
             </div>
@@ -154,15 +136,13 @@ export function ChatInterface() {
 
           // Check for ingestion
           const isIngested =
-            typeof window !== "undefined" &&
-            window.localStorage.getItem("documind-ai-ingested");
+            typeof window !== "undefined" && window.localStorage.getItem("documind-ai-ingested");
 
           if (!isIngested) {
             event.preventDefault();
             toast({
               title: "Upload a PDF first",
-              description:
-                "Ingest at least one PDF on the left before asking questions.",
+              description: "Ingest at least one PDF on the left before asking questions.",
             });
             return;
           }
@@ -200,15 +180,11 @@ export function ChatInterface() {
               type="button"
               className="rounded-full border border-white/15 bg-slate-900/80 px-2.5 py-1 text-slate-200 shadow-sm backdrop-blur hover:border-sky-400 hover:text-sky-100"
               onClick={() => {
-                if (
-                  typeof navigator !== "undefined" &&
-                  navigator.clipboard?.writeText
-                ) {
+                if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
                   void navigator.clipboard.writeText(source.text);
                   toast({
                     title: `Source ${index + 1} copied`,
-                    description:
-                      "The full source snippet is now in your clipboard.",
+                    description: "The full source snippet is now in your clipboard.",
                   });
                 }
               }}

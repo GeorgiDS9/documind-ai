@@ -1,70 +1,66 @@
-import { OpenAIEmbeddings } from "@langchain/openai"
+import { OpenAIEmbeddings } from "@langchain/openai";
 import PDFParser from "pdf2json";
 
 type SessionId = string;
 
 export type RetrievedChunk = {
-  id: number
-  text: string
-}
+  id: number;
+  text: string;
+};
 
 type SessionStore = {
-  chunks: string[]
-  vectors: number[][]
-  rawText: string
-}
+  chunks: string[];
+  vectors: number[][];
+  rawText: string;
+};
 
 const embeddings = new OpenAIEmbeddings({
   model: "text-embedding-3-small",
-})
+});
 
 // Ensure sessionStores persists across hot reloads in dev
 const globalForRag = globalThis as unknown as {
-  __DOCUMIND_SESSION_STORES__?: Map<SessionId, SessionStore>
-}
+  __DOCUMIND_SESSION_STORES__?: Map<SessionId, SessionStore>;
+};
 export const sessionStores: Map<SessionId, SessionStore> =
-  globalForRag.__DOCUMIND_SESSION_STORES__ || new Map<SessionId, SessionStore>()
+  globalForRag.__DOCUMIND_SESSION_STORES__ || new Map<SessionId, SessionStore>();
 if (!globalForRag.__DOCUMIND_SESSION_STORES__) {
-  globalForRag.__DOCUMIND_SESSION_STORES__ = sessionStores
+  globalForRag.__DOCUMIND_SESSION_STORES__ = sessionStores;
 }
 
-function chunkText(
-  text: string,
-  chunkSize = 1000,
-  chunkOverlap = 200,
-): string[] {
-  const normalized = text.replace(/\s+/g, " ").trim()
-  const chunks: string[] = []
+function chunkText(text: string, chunkSize = 1000, chunkOverlap = 200): string[] {
+  const normalized = text.replace(/\s+/g, " ").trim();
+  const chunks: string[] = [];
 
-  if (!normalized) return chunks
+  if (!normalized) return chunks;
 
-  let start = 0
+  let start = 0;
   while (start < normalized.length) {
-    const end = start + chunkSize
-    const slice = normalized.slice(start, end)
-    chunks.push(slice)
+    const end = start + chunkSize;
+    const slice = normalized.slice(start, end);
+    chunks.push(slice);
 
-    if (end >= normalized.length) break
-    start = end - chunkOverlap
+    if (end >= normalized.length) break;
+    start = end - chunkOverlap;
   }
 
-  return chunks
+  return chunks;
 }
 
 function cosineSimilarity(a: number[], b: number[]): number {
-  const len = Math.min(a.length, b.length)
-  let dot = 0
-  let normA = 0
-  let normB = 0
+  const len = Math.min(a.length, b.length);
+  let dot = 0;
+  let normA = 0;
+  let normB = 0;
 
   for (let i = 0; i < len; i++) {
-    dot += a[i] * b[i]
-    normA += a[i] * a[i]
-    normB += b[i] * b[i]
+    dot += a[i] * b[i];
+    normA += a[i] * a[i];
+    normB += b[i] * b[i];
   }
 
-  if (!normA || !normB) return 0
-  return dot / (Math.sqrt(normA) * Math.sqrt(normB))
+  if (!normA || !normB) return 0;
+  return dot / (Math.sqrt(normA) * Math.sqrt(normB));
 }
 
 async function extractTextFromPdf(buffer: Buffer): Promise<string> {
@@ -88,7 +84,7 @@ async function extractTextFromPdf(buffer: Buffer): Promise<string> {
 export async function ingestPdfForSession(buffer: Buffer, sessionId: string) {
   try {
     const text = await extractTextFromPdf(buffer);
-    
+
     if (!text || text.trim().length < 10) {
       throw new Error("Extraction resulted in empty text.");
     }
@@ -114,19 +110,19 @@ export async function retrieveRelevantChunks(
   query: string,
   k = 3,
 ): Promise<RetrievedChunk[]> {
-  const store = sessionStores.get(sessionId)
+  const store = sessionStores.get(sessionId);
   if (!store) {
-    return []
+    return [];
   }
 
-  const queryVector = await embeddings.embedQuery(query)
+  const queryVector = await embeddings.embedQuery(query);
 
   const scored = store.chunks.map((chunk, index) => ({
     chunk,
     score: cosineSimilarity(queryVector, store.vectors[index]),
-  }))
+  }));
 
-  scored.sort((a, b) => b.score - a.score)
+  scored.sort((a, b) => b.score - a.score);
 
   const top = scored
     .slice(0, k)
@@ -134,8 +130,7 @@ export async function retrieveRelevantChunks(
     .map((item, index) => ({
       id: index,
       text: item.chunk,
-    }))
+    }));
 
-  return top
+  return top;
 }
-

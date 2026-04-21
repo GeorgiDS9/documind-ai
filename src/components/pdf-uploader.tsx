@@ -63,8 +63,7 @@ export function PDFUploader() {
       toast({
         title: "Ingestion failed",
         description:
-          (error as Error).message ||
-          "We couldn’t prepare this document. Please try again.",
+          (error as Error).message || "We couldn’t prepare this document. Please try again.",
       });
     } finally {
       setIsProcessing(false);
@@ -84,12 +83,12 @@ export function PDFUploader() {
               <span>PDF ingestion pipeline</span>
             </div>
             <p className="text-sm text-slate-100">
-              Upload compliance decks, research PDFs, or contracts. We&apos;ll
-              slice them into semantic chunks and prep them for RAG.
+              Upload compliance decks, research PDFs, or contracts. We&apos;ll slice them into
+              semantic chunks and prep them for RAG.
             </p>
             <p className="text-[12px] text-slate-400">
-              Each upload is split into 1000-character slices, embedded, and
-              stored for this session only.
+              Each upload is split into 1000-character slices, embedded, and stored for this session
+              only.
             </p>
           </div>
 
@@ -116,12 +115,9 @@ export function PDFUploader() {
       <Card className="border-white/10 bg-slate-950/40 p-3 backdrop-blur-2xl">
         <div className="flex items-center justify-between gap-3">
           <div className="space-y-1">
-            <p className="text-[13px] font-medium text-slate-100">
-              Recent workspaces
-            </p>
+            <p className="text-[13px] font-medium text-slate-100">Recent workspaces</p>
             <p className="text-[12px] text-slate-400">
-              Once ingestion is live, your latest PDF collections will appear
-              here.
+              Once ingestion is live, your latest PDF collections will appear here.
             </p>
           </div>
           <div className="flex flex-col gap-1.5">
